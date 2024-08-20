@@ -4,7 +4,7 @@ import shutil
 from utils import create_output_yolo_project,whiteout_prediction_areas
 
 input_path = "project"
-output_path = "project"
+output_path = "output_label"
 model_path = "model/tnn5classes.pt"
 confident_level = 0.2
 
@@ -15,11 +15,10 @@ target_class_index = 39
 rectangle_color = (255,255,255)
 
 #clear output path
-# if(input_path!=output_path):
-#     if os.path.exists(output_path):
-#         shutil.rmtree(output_path)
-#     if not os.path.exists(output_path):
-#         os.makedirs(output_path)
+if os.path.exists(output_path):
+    shutil.rmtree(output_path)
+if not os.path.exists(output_path):
+    os.makedirs(output_path)
 
 model = YOLO(model_path)
 

@@ -14,13 +14,14 @@ def create_output_yolo_project(model, input_yolo_path, output_yolo_path, class_n
     output_class_path = os.path.join(output_yolo_path, "classes.txt")
     
     # Clear output path if it exists and recreate the directory structure
-    if os.path.exists(output_yolo_path):
-        shutil.rmtree(output_yolo_path)
-    os.makedirs(output_image_path)
-    os.makedirs(output_label_path)
+    if(input_yolo_path!=output_yolo_path):
+        if os.path.exists(output_yolo_path):
+            shutil.rmtree(output_yolo_path)
+        os.makedirs(output_image_path)
+        os.makedirs(output_label_path)
     
-    # Copy the input classes.txt to the output
-    shutil.copy(input_class_path, output_class_path)
+        # Copy the input classes.txt to the output
+        shutil.copy(input_class_path, output_class_path)
     
     # Load and update classes.txt in the output project
     classes = []
@@ -70,8 +71,9 @@ def create_output_yolo_project(model, input_yolo_path, output_yolo_path, class_n
                         label_file.write(f"{class_index} {x_center} {y_center} {width} {height}\n")
         
         # Copy the image to the output images directory
-        output_image_file_path = os.path.join(output_image_path, image_file)
-        shutil.copy(image_path, output_image_file_path)
+        if(input_yolo_path!=output_yolo_path):
+            output_image_file_path = os.path.join(output_image_path, image_file)
+            shutil.copy(image_path, output_image_file_path)
 
 def whiteout_prediction_areas(model, input_yolo_path, output_yolo_path, rectangle_color=(255, 255, 255), confidence_threshold=0.5, target_class_index=None):
     input_image_path = os.path.join(input_yolo_path, "images")
@@ -83,15 +85,16 @@ def whiteout_prediction_areas(model, input_yolo_path, output_yolo_path, rectangl
     output_class_path = os.path.join(output_yolo_path, "classes.txt")
     
     # Clear output path if it exists and recreate the directory structure
-    if os.path.exists(output_yolo_path):
-        shutil.rmtree(output_yolo_path)
-    os.makedirs(output_image_path)
-    os.makedirs(output_label_path)
+    if(input_yolo_path!=output_yolo_path):
+        if os.path.exists(output_yolo_path):
+            shutil.rmtree(output_yolo_path)
+        os.makedirs(output_image_path)
+        os.makedirs(output_label_path)
     
-    # Copy the input classes.txt and labels to the output directory
-    shutil.copy(input_class_path, output_class_path)
-    for label_file in os.listdir(input_label_path):
-        shutil.copy(os.path.join(input_label_path, label_file), os.path.join(output_label_path, label_file))
+        # Copy the input classes.txt and labels to the output directory
+        shutil.copy(input_class_path, output_class_path)
+        for label_file in os.listdir(input_label_path):
+            shutil.copy(os.path.join(input_label_path, label_file), os.path.join(output_label_path, label_file))
     
     # Get all image files in the input directory
     image_files = [f for f in os.listdir(input_image_path) if f.endswith(('.jpg', '.jpeg', '.png'))]
