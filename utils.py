@@ -4,6 +4,10 @@ from PIL import Image, ImageDraw
 import numpy as np
 import shutil
 
+def get_folders_list(path):
+    folders = [os.path.join(path, name) for name in os.listdir(path) if os.path.isdir(os.path.join(path, name))]
+    return [os.path.abspath(folder) for folder in folders]
+
 def create_output_yolo_project(model, input_yolo_path, output_yolo_path, class_name, class_index, confidence_threshold=0.5, target_class_index=None):
     input_image_path = os.path.join(input_yolo_path, "images")
     input_label_path = os.path.join(input_yolo_path, "labels")
