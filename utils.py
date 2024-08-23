@@ -66,7 +66,7 @@ def create_output_yolo_project(model, input_yolo_path, output_yolo_path, class_n
             # Add new labels from model predictions in YOLO format
             for result in results:
                 for box, conf, cls_idx in zip(result.boxes.xyxy.cpu().numpy(), result.boxes.conf.cpu().numpy(), result.boxes.cls.cpu().numpy()):
-                    if conf >= confidence_threshold and (target_class_index is None or cls_idx == target_class_index):
+                    if conf >= confidence_threshold and (target_class_index is None or cls_idx in target_class_index):
                         x1, y1, x2, y2 = box[:4]
                         x_center = (x1 + x2) / 2 / img_width
                         y_center = (y1 + y2) / 2 / img_height
@@ -115,7 +115,7 @@ def whiteout_prediction_areas(model, input_yolo_path, output_yolo_path, rectangl
         # Draw rectangles over the prediction areas
         for result in results:
             for box, conf, cls_idx in zip(result.boxes.xyxy.cpu().numpy(), result.boxes.conf.cpu().numpy(), result.boxes.cls.cpu().numpy()):
-                if conf >= confidence_threshold and (target_class_index is None or cls_idx == target_class_index):
+                if conf >= confidence_threshold and (target_class_index is None or cls_idx in target_class_index):
                     x1, y1, x2, y2 = map(int, box[:4])
                     draw.rectangle([x1, y1, x2, y2], fill=rectangle_color)
         

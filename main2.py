@@ -12,7 +12,7 @@ confident_level = 0.2
 
 class_name = "TNN16Live"
 output_class_index = 1
-target_class_index = 39
+target_class_index = [39,1]
 
 rectangle_color = (255,255,255)
 
